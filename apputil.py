@@ -136,8 +136,11 @@ def visualize_age_division():
     Visualization 4: Survival rate by age division and class
     """
     df = determine_age_division()
-    # Group by class and older_passenger, calculate survival rate
-    summary = df.groupby(['Pclass', 'older_passenger'])['Survived'].mean().reset_index()
+    # Group by class and older_passenger, calculate survival rate and mean age
+    summary = df.groupby(['Pclass', 'older_passenger']).agg(
+        survival_rate=('Survived', 'mean'),
+        age=('Age', 'mean')
+    ).reset_index()
     summary['older_passenger'] = summary['older_passenger'].map({True: 'Older', False: 'Younger'})
     fig = px.bar(
         summary,
