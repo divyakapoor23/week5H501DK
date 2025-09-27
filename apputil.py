@@ -8,7 +8,9 @@ def last_names():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     # Extract last name from the Name column
     # last_name out should be series of unique last names
-    return pd.Series(df['Name'].str.split(',').str[0].str.strip().unique())
+    last_names = df['Name'].str.split(',').str[0].str.strip()
+    # Create a Series with last names as index, values can be True
+    return pd.Series(True, index=last_names.unique())
 def family_groups():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
