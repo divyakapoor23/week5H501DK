@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 def age_division_summary():
-    df = determine_age_division(local=True).copy()
+    df = determine_age_division().copy()
     # Treat blank/empty strings in Age as NaN
     df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
     summary = (
@@ -29,14 +29,14 @@ def age_division_summary():
     return summary[['pclass', 'older_passenger', 'survival_rate', 'age']]
 
 def last_names():
-    df = pd.read_csv('titanic.csv', on_bad_lines='skip')
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     # Extract last name from the Name column
     # last_name out should be series of unique last names
     last_names = df['Name'].str.split(',').str[0].str.strip()
     # Return a Series with last names as index and their counts as values
     return last_names.value_counts()
 def family_groups():
-    df = pd.read_csv('titanic.csv', on_bad_lines='skip')
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
     grouped = df.groupby('family_size').agg(
         n_passengers=('PassengerId', 'count'),
@@ -53,7 +53,7 @@ def survival_demographics():
     """Load Titanic dataset and categorize ages into groups. 
         Calculate survival rates by class"""
     
-    df = pd.read_csv('titanic.csv', on_bad_lines='skip')
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     bins = [0, 12, 19, 59, 120]
     labels = ['Child', 'Teen', 'Adult', 'Senior']
     df['age_group'] = pd.cut(df['Age'], bins=bins, labels=labels, right=True, include_lowest=True)
@@ -109,7 +109,7 @@ def visualize_families():
     """
     Visualization 2: Survival by family size (stacked bar)
     """
-    df = pd.read_csv('titanic.csv', on_bad_lines='skip')
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
     family_summary = df.groupby(['family_size', 'Survived']).size().reset_index(name='count')
     family_pivot = family_summary.pivot(index='family_size', columns='Survived', values='count').fillna(0)
@@ -130,7 +130,7 @@ def visualize_family_size():
     """
     Visualization 3: Survival rate by family size (line)
     """
-    df = pd.read_csv('titanic.csv', on_bad_lines='skip')
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
     family_rate = df.groupby('family_size')['Survived'].mean().reset_index()
     fig = px.line(
@@ -144,15 +144,12 @@ def visualize_family_size():
     return fig
 
 
-def determine_age_division(local=False):
+def determine_age_division():
     """
     Load Titanic dataset and categorize ages into groups.
     Calculate survival rates by class
     """
-    if local:
-        df = pd.read_csv('titanic.csv', on_bad_lines='skip')
-    else:
-        df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     # Ensure Age column is numeric, blanks become NaN
     df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
     # Calculate median age per class
@@ -164,7 +161,7 @@ def visualize_age_division():
     """
     Visualization 4: Survival rate by age division and class
     """
-    df = determine_age_division(local=True)
+    df = determine_age_division()
     # Group by class and older_passenger, calculate survival rate and mean age
     summary = df.groupby(['Pclass', 'older_passenger']).agg(
         survival_rate=('Survived', 'mean'),
