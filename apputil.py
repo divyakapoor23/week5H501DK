@@ -145,10 +145,10 @@ def visualize_age_division():
     fig = px.bar(
         summary,
         x='older_passenger',
-        y='Survived',
+        y='survival_rate',
         color='older_passenger',
         facet_col='Pclass',
-        labels={'Survived': 'Survival Rate', 'older_passenger': 'Age Division', 'Pclass': 'Passenger Class'},
+        labels={'survival_rate': 'Survival Rate', 'older_passenger': 'Age Division', 'avg_age': 'Average Age', 'Pclass': 'Passenger Class'},
         title='Survival Rate by Age Division and Class'
     )
     fig.update_layout(yaxis_tickformat='.0%')
