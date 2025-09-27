@@ -19,7 +19,7 @@ def family_groups():
         n_survivors=('Survived', 'sum'),
         survival_rate=('Survived', 'mean'),
         avg_fare=('Fare', 'mean'),
-        age=('Age', 'mean')
+        avg_age=('Age', 'mean')
     ).reset_index()
     grouped = grouped.sort_values('family_size').reset_index(drop=True)
     return grouped
