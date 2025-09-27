@@ -1,8 +1,15 @@
-
 import plotly.express as px
 import numpy as np
 import pandas as pd
 
+def age_division_summary():
+    df = determine_age_division()
+    summary = df.groupby(['Pclass', 'older_passenger']).agg(
+        survival_rate=('Survived', 'mean'),
+        age=('Age', 'mean')
+    ).reset_index()
+    summary['older_passenger'] = summary['older_passenger'].map({True: 'Older', False: 'Younger'})
+    return summary
 
 def last_names():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
