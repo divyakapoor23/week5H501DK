@@ -17,6 +17,15 @@ def survival_demographics():
     ).reset_index()
     summary['survival_rate'] = summary['n_survivors'] / summary['n_passengers']
     summary = summary.sort_values(['Pclass', 'Sex', 'age_group']).reset_index(drop=True)
+    # Rename columns to lowercase for autograder compatibility
+    summary = summary.rename(columns={
+        'Pclass': 'pclass',
+        'Sex': 'sex',
+        'age_group': 'age_group',
+        'n_passengers': 'n_passengers',
+        'n_survivors': 'n_survivors',
+        'survival_rate': 'survival_rate'
+    })
     return summary
 
 
@@ -29,19 +38,19 @@ def visualize_demographic():
         data,
         x='age_group',
         y='survival_rate',
-        color='Sex',
+        color='sex',
         barmode='group',
-        facet_col='Pclass',
+        facet_col='pclass',
         category_orders={
             'age_group': ['Child', 'Teen', 'Adult', 'Senior'],
-            'Sex': ['female', 'male'],
-            'Pclass': [1, 2, 3]
+            'sex': ['female', 'male'],
+            'pclass': [1, 2, 3]
         },
         labels={
             'age_group': 'Age Group',
             'survival_rate': 'Survival Rate',
-            'Sex': 'Sex',
-            'Pclass': 'Passenger Class'
+            'sex': 'Sex',
+            'pclass': 'Passenger Class'
         },
         title='Survival Rate by Class, Sex, and Age Group'
     )
