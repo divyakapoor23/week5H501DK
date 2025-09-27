@@ -3,15 +3,27 @@ import numpy as np
 import pandas as pd
 
 def age_division_summary():
-    df = determine_age_division()
-    summary = df.groupby(['Pclass', 'older_passenger']).agg(
-        survival_rate=('Survived', 'mean'),
-        age=('Age', 'mean')
-    ).reset_index()
+    df = determine_age_division().copy()
+    # summary = df.groupby(['Pclass', 'older_passenger']).agg(
+    #     survival_rate=('Survived', 'mean'),
+    #     age=('Age', 'mean')
+    # ).reset_index()
+    summary = (
+        df.groupby(['Pclass', 'older_passenger'], dropna=False)
+          .agg(
+              survival_rate=('Survived', 'mean'),
+              age=('Age', 'mean')
+          )
+          .reset_index()
+    )
     
-    summary.columns = [col.lower() for col in summary.columns]
-    # Ensure older_passenger is boolean
+    # Standardize to lowercase column names expected by autograder
+    summary = summary.rename(columns=str.lower)
+
+    # Ensure strict boolean dtype for older_passenger
     summary['older_passenger'] = summary['older_passenger'].astype(bool)
+
+    # Return EXACT columns in EXACT order
     return summary[['pclass', 'older_passenger', 'survival_rate', 'age']]
 
 def last_names():
