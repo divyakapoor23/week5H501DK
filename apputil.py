@@ -1,6 +1,14 @@
+
 import plotly.express as px
 import numpy as np
 import pandas as pd
+
+
+def last_names():
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
+    # Extract last name from the Name column
+    # Assumes format: 'Lastname, ...'
+    return df['Name'].str.split(',').str[0].str.strip().unique()
 
 def family_groups():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
