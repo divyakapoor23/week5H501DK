@@ -9,8 +9,8 @@ def last_names():
     # Extract last name from the Name column
     # last_name out should be series of unique last names
     last_names = df['Name'].str.split(',').str[0].str.strip()
-    # Create a Series with last names as index, values can be True
-    return pd.Series(True, index=last_names.unique())
+    # Return a Series with last names as index and their counts as values
+    return last_names.value_counts()
 def family_groups():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
