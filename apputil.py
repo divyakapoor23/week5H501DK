@@ -2,8 +2,10 @@ import plotly.express as px
 import numpy as np
 import pandas as pd
 
-# Titanic survival demographics
 def survival_demographics():
+    """Load Titanic dataset and categorize ages into groups. 
+        Calculate survival rates by class"""
+    
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     bins = [0, 12, 19, 59, 120]
     labels = ['Child', 'Teen', 'Adult', 'Senior']
@@ -17,8 +19,11 @@ def survival_demographics():
     summary = summary.sort_values(['Pclass', 'Sex', 'age_group']).reset_index(drop=True)
     return summary
 
-# Visualization 1: Survival demographics
+
 def visualize_demographic():
+    """
+    Visualization 1: Survival demographics
+    """
     data = survival_demographics()
     fig = px.bar(
         data,
@@ -43,8 +48,11 @@ def visualize_demographic():
     fig.update_layout(yaxis_tickformat='.0%')
     return fig
 
-# Visualization 2: Survival by family size (stacked bar)
+
 def visualize_families():
+    """
+    Visualization 2: Survival by family size (stacked bar)
+    """
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
     family_summary = df.groupby(['family_size', 'Survived']).size().reset_index(name='count')
@@ -61,9 +69,11 @@ def visualize_families():
     )
     return fig
 
-# Visualization 3: Survival rate by family size (line)
 
 def visualize_family_size():
+    """
+    Visualization 3: Survival rate by family size (line)
+    """
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
     family_rate = df.groupby('family_size')['Survived'].mean().reset_index()
@@ -77,8 +87,12 @@ def visualize_family_size():
     fig.update_layout(yaxis_tickformat='.0%')
     return fig
 
-# Bonus: Age division by class
+
 def determine_age_division():
+    """
+    Load Titanic dataset and categorize ages into groups.
+    Calculate survival rates by class
+    """
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
     # Calculate median age per class
     median_ages = df.groupby('Pclass')['Age'].transform('median')
@@ -86,6 +100,9 @@ def determine_age_division():
     return df
 
 def visualize_age_division():
+    """
+    Visualization 4: Survival rate by age division and class
+    """
     df = determine_age_division()
     # Group by class and older_passenger, calculate survival rate
     summary = df.groupby(['Pclass', 'older_passenger'])['Survived'].mean().reset_index()
