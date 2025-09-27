@@ -1,5 +1,5 @@
 import streamlit as st
-
+import numpy as np
 from apputil import *
 
 # Load Titanic dataset
@@ -11,6 +11,9 @@ st.write(
 
 '''
 )
+
+# Clear question for the results table
+st.write("Did women in first class have a higher survival rate than men in other classes?")
 # Generate and display the figure
 fig1 = visualize_demographic()
 st.plotly_chart(fig1, use_container_width=True)
@@ -20,9 +23,12 @@ st.write(
 # Titanic Visualization 2
 '''
 )
+
+
 # Generate and display the figure
 fig2 = visualize_families()
 st.plotly_chart(fig2, use_container_width=True)
+
 
 st.write(
 '''
@@ -32,3 +38,12 @@ st.write(
 # Generate and display the figure
 fig3 = visualize_family_size()
 st.plotly_chart(fig3, use_container_width=True)
+
+# Bonus: Survival rate by age division and class
+st.write(
+'''
+# Titanic Age Division Analysis
+'''
+)
+fig4 = visualize_age_division()
+st.plotly_chart(fig4, use_container_width=True)
