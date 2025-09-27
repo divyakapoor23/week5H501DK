@@ -150,6 +150,8 @@ def determine_age_division():
     Calculate survival rates by class
     """
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
+    # Ensure Age column is numeric, blanks become NaN
+    df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
     # Calculate median age per class
     median_ages = df.groupby('Pclass')['Age'].transform('median')
     df['older_passenger'] = df['Age'] > median_ages
