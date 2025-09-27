@@ -8,8 +8,11 @@ def age_division_summary():
         survival_rate=('Survived', 'mean'),
         age=('Age', 'mean')
     ).reset_index()
-    summary['older_passenger'] = summary['older_passenger'].map({True: 'Older', False: 'Younger'})
-    return summary[['Pclass', 'older_passenger', 'survival_rate', 'age']]
+    # Rename columns to lowercase for autograder compatibility
+    summary = summary.rename(columns={'Pclass': 'pclass'})
+    # Ensure older_passenger is boolean
+    summary['older_passenger'] = summary['older_passenger'].astype(bool)
+    return summary[['pclass', 'older_passenger', 'survival_rate', 'age']]
 
 def last_names():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
