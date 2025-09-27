@@ -4,6 +4,8 @@ import pandas as pd
 
 def age_division_summary():
     df = determine_age_division().copy()
+    # Treat blank/empty strings in Age as NaN
+    df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
     summary = (
         df.groupby(['Pclass', 'older_passenger'], dropna=False)
           .agg(
