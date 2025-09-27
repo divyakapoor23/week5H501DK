@@ -2,6 +2,18 @@ import plotly.express as px
 import numpy as np
 import pandas as pd
 
+def family_groups():
+    df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
+    df['family_size'] = df['SibSp'] + df['Parch'] + 1
+    grouped = df.groupby('family_size').agg(
+        n_passengers=('PassengerId', 'count'),
+        n_survivors=('Survived', 'sum'),
+        survival_rate=('Survived', 'mean')
+    ).reset_index()
+    grouped = grouped.sort_values('family_size').reset_index(drop=True)
+    return grouped
+
+
 def survival_demographics():
     """Load Titanic dataset and categorize ages into groups. 
         Calculate survival rates by class"""
