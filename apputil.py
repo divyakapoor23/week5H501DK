@@ -20,7 +20,7 @@ def age_division_summary():
         'Pclass': 'pclass',
         'older_passenger': 'older_passenger',
         'survival_rate': 'survival_rate',
-        'Age': 'Age'
+        'Age': 'age'
         }
 )
     # Ensure strict boolean dtype for older_passenger
@@ -30,12 +30,12 @@ def age_division_summary():
         'Pclass': 'pclass',
         'older_passenger': 'older_passenger',
         'survival_rate': 'survival_rate',
-        'Age': 'Age'
+        'Age': 'age'
     })
     # Drop rows where 'age' is NaN and ensure float dtype
-    summary = summary.dropna(subset=['Age'])
-    summary['Age'] = summary['Age'].astype(float)
-    return summary[['pclass', 'older_passenger', 'survival_rate', 'Age']]
+    summary = summary.dropna(subset=['age'])
+    summary['age'] = summary['age'].astype(float)
+    return summary[['pclass', 'older_passenger', 'survival_rate', 'age']]
 
 def last_names():
     """Load Titanic dataset and extract last names from the Name column. 
@@ -193,7 +193,7 @@ def visualize_age_division():
         y='survival_rate',
         color='older_passenger',
         facet_col='Pclass',
-        labels={'survival_rate': 'Survival Rate', 'older_passenger': 'Age Division', 'Age': 'Average Age', 'Pclass': 'Passenger Class'},
+        labels={'survival_rate': 'Survival Rate', 'older_passenger': 'Age Division', 'age': 'Average Age', 'Pclass': 'Passenger Class'},
         title='Survival Rate by Age Division and Class'
     )
     fig.update_layout(yaxis_tickformat='.0%')
