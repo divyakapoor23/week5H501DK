@@ -19,7 +19,7 @@ def age_division_summary():
         'Pclass': 'pclass',
         'older_passenger': 'older_passenger',
         'survival_rate': 'survival_rate',
-        'Age': 'age'
+        'Age': 'Age'
     })
     # Ensure strict boolean dtype for older_passenger
     summary['older_passenger'] = summary['older_passenger'].astype(bool)
