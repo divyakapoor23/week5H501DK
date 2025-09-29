@@ -8,7 +8,7 @@ def age_division_summary():
     df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
     # Group by Pclass and older_passenger, calculate survival rate and mean age
     summary = (
-        df.groupby(['Pclass', 'older_passenger'], dropna=False)
+        df.groupby(['Pclass', 'older_passenger'], dropna=False, observed=False)
           .agg(
               survival_rate=('Survived', 'mean'),
               Age=('Age', 'mean')
@@ -52,7 +52,7 @@ def family_groups():
     Group by family size and calculate survival statistics."""
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
-    grouped = df.groupby('family_size').agg(
+    grouped = df.groupby('family_size', observed=False).agg(
         n_passengers=('PassengerId', 'count'),
         n_survivors=('Survived', 'sum'),
         survival_rate=('Survived', 'mean'),
@@ -71,7 +71,7 @@ def survival_demographics():
     bins = [0, 12, 19, 59, 120]
     labels = ['Child', 'Teen', 'Adult', 'Senior']
     df['age_group'] = pd.cut(df['Age'], bins=bins, labels=labels, right=True, include_lowest=True)
-    grouped = df.groupby(['Pclass', 'Sex', 'age_group'])
+    grouped = df.groupby(['Pclass', 'Sex', 'age_group'], observed=False)
     summary = grouped.agg(
         n_passengers=('PassengerId', 'count'),
         n_survivors=('Survived', 'sum')
@@ -127,7 +127,7 @@ def visualize_families():
     """
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
-    family_summary = df.groupby(['family_size', 'Survived']).size().reset_index(name='count')
+    family_summary = df.groupby(['family_size', 'Survived'], observed=False).size().reset_index(name='count')
     family_pivot = family_summary.pivot(index='family_size', columns='Survived', values='count').fillna(0)
     if 0 in family_pivot.columns and 1 in family_pivot.columns:
         family_pivot.columns = ['Died', 'Survived']
@@ -149,7 +149,7 @@ def visualize_family_size():
     """
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     df['family_size'] = df['SibSp'] + df['Parch'] + 1
-    family_rate = df.groupby('family_size')['Survived'].mean().reset_index()
+    family_rate = df.groupby('family_size', observed=False)['Survived'].mean().reset_index()
     # Create the line chart
     fig = px.line(
         family_rate,
@@ -171,7 +171,7 @@ def determine_age_division():
     # Ensure Age column is numeric, blanks become NaN
     df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
     # Calculate median age per class
-    median_ages = df.groupby('Pclass')['Age'].transform('median')
+    median_ages = df.groupby('Pclass', observed=False)['Age'].transform('median')
     df['older_passenger'] = df['Age'] > median_ages
     return df
 
@@ -181,7 +181,7 @@ def visualize_age_division():
     """
     df = determine_age_division()
     # Group by class and older_passenger, calculate survival rate and mean age
-    summary = df.groupby(['Pclass', 'older_passenger']).agg(
+    summary = df.groupby(['Pclass', 'older_passenger'], observed=False).agg(
         survival_rate=('Survived', 'mean'),
         age=('Age', 'mean')
     ).reset_index()
