@@ -28,12 +28,12 @@ def age_division_summary():
         'Pclass': 'pclass',
         'older_passenger': 'older_passenger',
         'survival_rate': 'survival_rate',
-        'Age': 'age'
+        'Age': 'Age'
     })
     # Drop rows where 'age' is NaN and ensure float dtype
-    summary = summary.dropna(subset=['age'])
-    summary['age'] = summary['age'].astype(float)
-    return summary[['pclass', 'older_passenger', 'survival_rate', 'age']]
+    summary = summary.dropna(subset=['Age'])
+    summary['Age'] = summary['Age'].astype(float)
+    return summary[['pclass', 'older_passenger', 'survival_rate', 'Age']]
 
 def last_names():
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
