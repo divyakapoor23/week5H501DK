@@ -2,9 +2,6 @@ import streamlit as st
 import numpy as np
 from apputil import *
 
-# Load Titanic dataset
-df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv')
-
 st.write(
 '''
 # Survival Rate by Class, Sex, and Age Group

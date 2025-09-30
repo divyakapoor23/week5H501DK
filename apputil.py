@@ -64,9 +64,7 @@ def family_groups():
 
 
 def survival_demographics():
-    """Load Titanic dataset and categorize ages into groups. 
-        Calculate survival rates by class"""
-    
+    """Load Titanic dataset and create survival rate summary."""
     df = pd.read_csv('https://raw.githubusercontent.com/leontoddjohnson/datasets/main/data/titanic.csv', on_bad_lines='skip')
     bins = [0, 12, 19, 59, 120]
     labels = ['Child', 'Teen', 'Adult', 'Senior']
